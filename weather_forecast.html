@@ -1,0 +1,80 @@
+<a class="weatherwidget-io" 
+   href="https://forecast7.com/en/10d82106d63/ho-chi-minh-city/" 
+   data-label_1="SAIGON" 
+   data-label_2="WEATHER" 
+   data-icons="Climacons Animated" 
+   data-textcolor="#ffff" 
+   data-highcolor="#f80707"
+   data-lowcolor="#4b9dd3" 
+   data-mooncolor="#5f5353" 
+   data-cloudcolor="#968e8e" 
+   data-cloudfill="#f8f8f9" 
+   data-raincolor="#21b6ee" 
+   data-snowcolor="#fefefe"
+   id="weather-widget" 
+   style="background: url('https://i.pinimg.com/originals/0b/c0/30/0bc030803dc18816b398e611d09ceaa6.gif') no-repeat center center; background-size: cover; border-radius: 15px; overflow: hidden; padding: 20px; font-size: 24px;"> <!-- Increased font size -->
+   SAIGON WEATHER
+</a>
+
+<script>
+!function(d,s,id){
+    var js,fjs=d.getElementsByTagName(s)[0];
+    if (!d.getElementById(id)){
+        js=d.createElement(s); 
+        js.id=id;
+        js.src='https://weatherwidget.io/js/widget.min.js';
+        fjs.parentNode.insertBefore(js,fjs);
+    }
+}(document,'script','weatherwidget-io-js');
+
+// Function to change the background of the weather widget based on time and weather
+function changeWidgetBackground(weather_condition) {
+    const hour = new Date().getHours();
+    let background_url = '';
+
+    // Define background URLs
+    const sunrise_background_url = 'https://i.pinimg.com/originals/0b/c0/30/0bc030803dc18816b398e611d09ceaa6.gif'; // Sunrise
+    const clear_day_background_url = 'https://i.pinimg.com/originals/37/7d/fb/377dfb824264c01e9d3030556e249306.gif'; // Clear Day
+    const evening_background_url = 'https://i.pinimg.com/originals/d9/6b/80/d96b80159414ba45189e70a214f6eedf.gif'; // Evening
+    const night_background_url = 'https://i.pinimg.com/originals/ae/c9/7d/aec97db7a3fc771a5155d98fc96e7a3b.gif'; // Night
+    const midnight_background_url = 'https://i.pinimg.com/originals/e5/b4/79/e5b4794634664229df7da0d9b2aec125.gif'; // Midnight
+    const rain_background_url = 'https://i.pinimg.com/originals/f0/d1/65/f0d16561ae98574833c1b62433277788.gif'; // Rain
+    const night_rain_background_url = 'https://i.pinimg.com/originals/81/85/85/81858515e157eaa479f376ae007df034.gif'; // Night Rain
+    const evening_rain_background_url = 'https://i.pinimg.com/originals/69/e0/13/69e01301bf2ae2846ea70e073a3d1286.gif'; // Evening Rain
+
+    // Determine time of day
+    if (hour >= 4 && hour < 5) { // Sunrise (4 AM to 5 AM)
+        background_url = (weather_condition === 'Rain') ? 
+            rain_background_url : 
+            sunrise_background_url;
+    } else if (hour >= 5 && hour < 12) { // Morning (5 AM to 12 PM)
+        background_url = (weather_condition === 'Rain') ? 
+            rain_background_url : 
+            clear_day_background_url; // Same for morning and afternoon clear
+    } else if (hour >= 12 && hour < 16) { // Afternoon (12 PM to 5 PM)
+        background_url = (weather_condition === 'Rain') ? 
+            rain_background_url : 
+            clear_day_background_url; // Same for morning and afternoon clear
+    } else if (hour >= 16 && hour < 18) { // Evening (5 PM to 8 PM)
+        background_url = (weather_condition === 'Rain') ? 
+            evening_rain_background_url : // Evening rain
+            evening_background_url; 
+    } else if (hour >= 18 && hour < 24) { // Nighttime (8 PM to 12 AM)
+        background_url = (weather_condition === 'Rain') ? 
+            night_rain_background_url : 
+            night_background_url; // Same for night and midnight clear
+    } else { // Midnight (12 AM to 4 AM)
+        background_url = (weather_condition === 'Rain') ? 
+            night_rain_background_url : 
+            midnight_background_url; // Same for night and midnight clear
+    }
+
+    // Set the widget background to the chosen URL
+    document.getElementById('weather-widget').style.background = `url('${background_url}') no-repeat center`;
+    document.getElementById('weather-widget').style.backgroundSize = 'cover';
+}
+
+// Example call to changeWidgetBackground function
+changeWidgetBackground('Clear'); // Replace 'Clear' with the actual weather condition you get from your weather API
+
+</script>
